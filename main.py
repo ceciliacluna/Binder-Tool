@@ -87,6 +87,7 @@ class BinderTool:
         url = self.url_entry.get()
         username = self.user_name_entry.get()
         password = self.password_entry.get()
+        date = self.date_entry.get()
         full_url = url + '/api/v19.1/auth'
         payload = {'username': username,
                    'password': password}
@@ -129,7 +130,7 @@ class BinderTool:
                 new_row = {'Binder ID': binder_id, 'name__v': name__v, 'id': ID}
                 output_df = output_df.append(new_row, ignore_index=True)
 
-        output_df.to_csv(output_path + '/binder_output_1-20.csv', index=False)
+        output_df.to_csv(output_path + '/binder_output_' + date + '.csv', index=False)
         completed = Label(master, text="Download Complete", fg="green", font="Helvetica 10 bold", pady=6)
         completed.pack()
         self.progress.pack_forget()
