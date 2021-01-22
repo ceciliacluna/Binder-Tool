@@ -1,39 +1,39 @@
-from tkinter import Tk, Label, Frame, Entry, Button, END, TOP, X, HORIZONTAL, BOTTOM, S
+from tkinter import Tk, Label, Frame, Entry, Button, END, TOP, HORIZONTAL, BOTTOM, S, E, W, NSEW
 from tkinter.ttk import Progressbar
 from tkinter.messagebox import showerror
 import tkinter.filedialog as filedialog
 import requests
 import pandas as pd
-import traceback
 
 
 class BinderTool:
     def __init__(self, master):
         self.master = master
         master.title('Binder Tool')
+        # master.geometry("450x280")
 
         self.input_frame = Frame(master)
         self.top_frame = Frame(master)
         self.bottom_frame = Frame(master)
-        self.line = Frame(master, height=1, width=400, bg="grey80", relief='groove')
+        self.line = Frame(master, height=1, width=400, bg="grey90", relief='groove')
 
-        self.url_input = Label(self.input_frame, text="  url:")
+        self.url_input = Label(self.input_frame, text="  url:      ")
         self.url_entry = Entry(self.input_frame, text="", width=40)
 
-        self.user_name_input = Label(self.input_frame, text="username:    ")
+        self.user_name_input = Label(self.input_frame, text="username:       ")
         self.user_name_entry = Entry(self.input_frame, text="", width=40)
 
-        self.password_input = Label(self.input_frame, text="password:   ")
+        self.password_input = Label(self.input_frame, text="password:      ")
         self.password_entry = Entry(self.input_frame, text="", width=40)
 
-        self.date_input = Label(self.input_frame, text="date (mm-dd-yyyy):   ")
+        self.date_input = Label(self.input_frame, text="date (mm-dd-yyyy):      ")
         self.date_entry = Entry(self.input_frame, text="", width=40)
 
-        self.input_path_label = Label(self.top_frame, text="Input File Path:")
+        self.input_path_label = Label(self.top_frame, text="Input Location:         ")
         self.input_entry = Entry(self.top_frame, text="", width=40)
         self.browse1 = Button(self.top_frame, text="Browse", command=self.input_location)
 
-        self.output_path_label = Label(self.bottom_frame, text="Output File Path:")
+        self.output_path_label = Label(self.bottom_frame, text="Output Location:      ")
         self.output_entry = Entry(self.bottom_frame, text="", width=40)
         self.browse2 = Button(self.bottom_frame, text="Browse", command=self.output_location)
 
@@ -44,32 +44,32 @@ class BinderTool:
         # LAYOUT
 
         self.input_frame.pack(side=TOP, pady=5)
-        self.line.pack(pady=10)
-        self.top_frame.pack()
-        self.line.pack(pady=10)
-        self.bottom_frame.pack()
+        self.line.pack(pady=5)
+        self.top_frame.pack(pady=5, padx=5)
+        self.bottom_frame.pack(pady=5)
 
-        self.url_input.grid(row=0, column=0, pady=5)
+        self.url_input.grid(row=0, column=0, pady=5, sticky=E)
         self.url_entry.grid(row=0, column=1, pady=5)
 
-        self.user_name_input.grid(row=1, column=0, pady=5)
+        self.user_name_input.grid(row=1, column=0, pady=5, sticky=E)
         self.user_name_entry.grid(row=1, column=1, pady=5)
 
-        self.password_input.grid(row=2, column=0, pady=5)
+        self.password_input.grid(row=2, column=0, pady=5, sticky=E)
         self.password_entry.grid(row=2, column=1, pady=5)
 
-        self.date_input.grid(row=3, column=0, pady=5)
+        self.date_input.grid(row=3, column=0, pady=5, sticky=E)
         self.date_entry.grid(row=3, column=1, pady=5)
 
-        self.input_path_label.pack(pady=5)
-        self.input_entry.pack(pady=5)
-        self.browse1.pack(pady=5)
+        self.input_path_label.grid(row=0, column=0, pady=5, sticky=E)
+        self.input_entry.grid(row=0, column=1, pady=5, sticky=E)
+        self.browse1.grid(row=0, column=2, padx=10, sticky=E)
 
-        self.output_path_label.pack(pady=5)
-        self.output_entry.pack(pady=5)
-        self.browse2.pack(pady=5)
+        self.output_path_label.grid(row=1, column=0, pady=5, sticky=E)
+        self.output_entry.grid(row=1, column=1, pady=5, sticky=E)
+        self.browse2.grid(row=1, column=2, padx=10, sticky=E)
 
-        self.begin_button.pack(pady=20, fill=X)
+        self.begin_button.grid(row=2, column=1, ipadx=10, pady=10, sticky=NSEW)
+        # self.begin_button.place(relx=0.5, rely=1.5, anchor=S)
 
     def input_location(self):
         global input_path
