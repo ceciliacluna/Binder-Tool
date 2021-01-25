@@ -26,8 +26,8 @@ class BinderTool:
         self.password_input = Label(self.input_frame, text="password:      ")
         self.password_entry = Entry(self.input_frame, text="", width=40)
 
-        self.date_input = Label(self.input_frame, text="date (mm-dd-yyyy):      ")
-        self.date_entry = Entry(self.input_frame, text="", width=40)
+        self.file_name_input = Label(self.input_frame, text="file name:      ")
+        self.file_name_entry = Entry(self.input_frame, text="", width=40)
 
         self.input_path_label = Label(self.top_frame, text="Input Location:         ")
         self.input_entry = Entry(self.top_frame, text="", width=40)
@@ -57,8 +57,8 @@ class BinderTool:
         self.password_input.grid(row=2, column=0, pady=5, sticky=E)
         self.password_entry.grid(row=2, column=1, pady=5)
 
-        self.date_input.grid(row=3, column=0, pady=5, sticky=E)
-        self.date_entry.grid(row=3, column=1, pady=5)
+        self.file_name_input.grid(row=3, column=0, pady=5, sticky=E)
+        self.file_name_entry.grid(row=3, column=1, pady=5)
 
         self.input_path_label.grid(row=0, column=0, pady=5, sticky=E)
         self.input_entry.grid(row=0, column=1, pady=5, sticky=E)
@@ -69,7 +69,6 @@ class BinderTool:
         self.browse2.grid(row=1, column=2, padx=10, sticky=E)
 
         self.begin_button.grid(row=2, column=1, ipadx=10, pady=10, sticky=NSEW)
-        # self.begin_button.place(relx=0.5, rely=1.5, anchor=S)
 
     def input_location(self):
         global input_path
@@ -87,7 +86,7 @@ class BinderTool:
         url = self.url_entry.get()
         username = self.user_name_entry.get()
         password = self.password_entry.get()
-        date = self.date_entry.get()
+        file_name = self.file_name_entry.get()
         full_url = url + '/api/v19.1/auth'
         payload = {'username': username,
                    'password': password}
@@ -130,7 +129,7 @@ class BinderTool:
                 new_row = {'Binder ID': binder_id, 'name__v': name__v, 'id': ID}
                 output_df = output_df.append(new_row, ignore_index=True)
 
-        output_df.to_csv(output_path + '/binder_output_' + date + '.csv', index=False)
+        output_df.to_csv(output_path + '/' + file_name + '.csv', index=False)
         completed = Label(master, text="Download Complete", fg="green", font="Helvetica 10 bold", pady=6)
         completed.pack()
         self.progress.pack_forget()
