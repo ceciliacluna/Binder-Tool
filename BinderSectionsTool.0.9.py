@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, Frame, Entry, Button, END, TOP, HORIZONTAL, BOTTOM, S, E, W, NSEW
+from tkinter import Tk, Label, Frame, Entry, Button, END, TOP, HORIZONTAL, BOTTOM, S, E, NSEW
 from tkinter.ttk import Progressbar
 from tkinter.messagebox import showerror
 import tkinter.filedialog as filedialog
@@ -10,8 +10,8 @@ class BinderTool:
     def __init__(self, master):
         self.master = master
         master.title('Binder Sections Tool')
-        # master.geometry("450x280")
 
+        # MAIN SCREEN
         self.input_frame = Frame(master)
         self.top_frame = Frame(master)
         self.bottom_frame = Frame(master)
@@ -43,7 +43,7 @@ class BinderTool:
 
         self.completed = Label(master, text="Download Complete", fg="green", font="Helvetica 10 bold", pady=6)
 
-        # LAYOUT
+        # SETTING LAYOUT
 
         self.input_frame.pack(side=TOP, pady=5)
         self.line.pack(pady=5)
@@ -72,18 +72,21 @@ class BinderTool:
 
         self.begin_button.grid(row=2, column=1, ipadx=10, pady=10, sticky=NSEW)
 
+    # Prompts user to select input file
     def input_location(self):
         global input_path
         input_path = filedialog.askopenfilename(title="Select a file", filetypes=[("Excel files", ".xlsx .xls")])
         self.input_entry.delete(1, END)  # Remove current text in entry
         self.input_entry.insert(0, input_path)  # Insert the 'path'
 
+    # Prompts user to select output location
     def output_location(self):
         global output_path
         output_path = filedialog.askdirectory()
         self.output_entry.delete(1, END)  # Remove current text in entry
         self.output_entry.insert(0, output_path)  # Insert the 'path'
 
+    # Makes API request and generates output file
     def data_automation(self):
         self.completed.pack_forget()
         url = self.url_entry.get()
@@ -103,17 +106,15 @@ class BinderTool:
 
         try:
             response = requests.request("POST", full_url, headers=headers, params=payload, files=files)
-            print(response.raise_for_status())
             auth_content = response.json()
             session_id = auth_content['sessionId']
-        except ConnectionError:
-            showerror(title="Error", message="URL is incorrect")
+        except requests.ConnectionError:
+            showerror(title="Error", message="The URL entered is incorrect")
         except Exception:
             msg = response.json().get('responseMessage')
             showerror(title="Error", message=msg)
             print(msg)
             raise MyCustomAPIError(msg)
-
 
         full_url = url + '/api/v19.1/objects/binders/'
         payload = {}
@@ -132,8 +133,10 @@ class BinderTool:
             url_id = full_url + binder_id + '?depth=all'
             response = requests.request("GET", url_id, headers=headers, data=payload, files=files)
             json_file = response.json()
+            print(json_file)
             master.update()
             json_parse = json_file['binder']['nodes']
+            print(json_parse)
             for x in json_parse:
                 name__v = x['properties']['name__v']
                 ID = x['properties']['id']
@@ -152,3 +155,4 @@ class MyCustomAPIError(requests.exceptions.HTTPError):
 master = Tk()
 my_gui = BinderTool(master)
 master.mainloop()
+
