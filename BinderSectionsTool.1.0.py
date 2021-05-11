@@ -125,7 +125,7 @@ class BinderTool:
 
         }
         binder = pd.read_excel(input_path)
-        output_df = pd.DataFrame(columns=['Binder ID', 'name__v', 'id'])
+        output_df = pd.DataFrame(columns=['Binder Tool ID', 'name__v', 'id'])
         self.progress.pack(side=BOTTOM, anchor=S, pady=10)
         for index, row in binder.iterrows():
             self.progress.step()
